@@ -45,6 +45,8 @@ let messages = [
 ];
 
 let currentMessage = 0;
+let tomMessageCount = 0;  // Counter for Tom's messages
+let maryMessageCount = 0;  // Counter for Mary's messages
 let interventionOccurred = false;
 
 function showNextMessage() {
@@ -69,6 +71,13 @@ function showNextMessage() {
             chatbox.appendChild(newMessage);
             chatbox.scrollTop = chatbox.scrollHeight;
 
+            // Increment Tom or Mary's message count
+            if (msg.sender === 'tom') {
+                tomMessageCount++;
+            } else if (msg.sender === 'candidate') {
+                maryMessageCount++;
+            }
+
             currentMessage++;
 
             // Move to next message after a delay
@@ -83,13 +92,23 @@ function showNextMessage() {
 
 function intervene(choice) {
     if (choice) {
-        alert("You intervened. The interview will be stopped, and the candidate reassigned.");
-        logOutcome('intervention');
-        disableInterventionElements();
         interventionOccurred = true;
+        logOutcome('intervention');
+
+        // Send Tom's and Mary's message counts to Qualtrics
+        sendToQualtrics(tomMessageCount, maryMessageCount);
+
+        alert(`You intervened after Tom's message #${tomMessageCount} and Mary's message #${maryMessageCount}. The candidate will be reassigned.`);
+        disableInterventionElements();
         document.getElementById('resultMessage').textContent = "You have stopped the interview. The candidate will be reassigned to a new manager.";
         endChat();
     }
+}
+
+function sendToQualtrics(tomCount, maryCount) {
+    // Assuming you're using Embedded Data fields in Qualtrics for 'TomMessageCount' and 'MaryMessageCount'
+    Qualtrics.SurveyEngine.setEmbeddedData('TomMessageCount', tomCount);
+    Qualtrics.SurveyEngine.setEmbeddedData('MaryMessageCount', maryCount);
 }
 
 function disableInterventionElements() {
@@ -110,7 +129,6 @@ function endChat() {
 function logOutcome(outcome) {
     console.log(`Outcome logged: ${outcome}`);
 }
-
 
 // Start chat when the page loads
 window.onload = function() {
