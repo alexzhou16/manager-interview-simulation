@@ -104,6 +104,10 @@ function intervene(choice) {
     }
 }
 
+function disableInterventionElements() {
+    document.getElementById('yesButton').style.display = 'none';
+    document.getElementById('interventionText').style.display = 'none';
+}
 function endChat() {
     // Hide the chatbox and display the result message and survey
     document.getElementById('chatbox').style.display = 'none';  // Hide chatbox
