@@ -98,7 +98,7 @@ function intervene(choice) {
         // Send Tom's and Mary's message counts to Qualtrics
         sendToQualtrics(tomMessageCount, maryMessageCount);
 
-        alert(`You intervened after Tom's message #${tomMessageCount} and Mary's message #${maryMessageCount}. The candidate will be reassigned.`);
+        alert(`You intervened. The interview will be stopped, and the candidate reassigned.`);
         disableInterventionElements();
         document.getElementById('resultMessage').textContent = "You have stopped the interview. The candidate will be reassigned to a new manager.";
         endChat();
