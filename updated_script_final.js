@@ -1,6 +1,6 @@
 
 let messages = [
-   { from: 'Tom', text: '5Hi Mary. Thanks for attending this interview today for the [position]. My name is Tom Garner, I am the [position]', sender: 'tom' },
+   { from: 'Tom', text: '7Hi Mary. Thanks for attending this interview today for the [position]. My name is Tom Garner, I am the [position]', sender: 'tom' },
    { from: 'Tom', text: 'This will be a brief conversation to get to know you, learn about your experience, and see if you are a good fit for the role. If today goes well, you will have a longer interview with my [team or supervisor]. Sound good?', sender: 'tom' },
     { from: 'Mary', text: 'Yes, sounds great.', sender: 'candidate' },
     { from: 'Tom', text: 'First, what made you apply for this position?', sender: 'tom' },
@@ -71,13 +71,6 @@ function showNextMessage() {
             chatbox.appendChild(newMessage);
             chatbox.scrollTop = chatbox.scrollHeight;
 
-            // Increment Tom or Mary's message count
-            if (msg.sender === 'tom') {
-                tomMessageCount++;
-            } else if (msg.sender === 'candidate') {
-                maryMessageCount++;
-            }
-
             currentMessage++;
 
             // Move to next message after a delay
@@ -95,10 +88,8 @@ function intervene(choice) {
          logOutcome('intervention');
         disableInterventionElements();
         interventionOccurred = true;
-
-        // Display a message and move to the resultMessage section
         document.getElementById('resultMessage').textContent = "You have stopped the interview. The candidate will be reassigned to a new manager.";
-        // Immediately end the chat after intervention
+        endChat();
     }
 }
 
@@ -106,30 +97,21 @@ function disableInterventionElements() {
     document.getElementById('yesButton').style.display = 'none';
     document.getElementById('interventionText').style.display = 'none';
 }
-function endChat() {
-    // Hide the chatbox and display the result message and survey
-    document.getElementById('chatbox').style.display = 'none';  // Hide chatbox
-    document.getElementById('results').style.display = 'block'; // Show results section
-    document.getElementById('postSurvey').style.display = 'block'; // Show post survey section
 
-   // Update resultMessage based on intervention
-    if (interventionOccurred) {
-        document.getElementById('resultMessage').textContent = "You have stopped the interview. The candidate will be reassigned to a new manager.";
-    } else {
+function endChat() {
+    document.getElementById('chatbox').style.display = 'none';
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('postSurvey').style.display = 'block';
+    if (!interventionOccurred) {
+        document.getElementById('interventionPrompt').style.display = 'none';
         document.getElementById('resultMessage').textContent = "The interview is completed.";
     }
-}
-
-
-function sendToQualtrics(tomCount, maryCount) {
-    // Assuming you're using Embedded Data fields in Qualtrics for 'TomMessageCount' and 'MaryMessageCount'
-    Qualtrics.SurveyEngine.setEmbeddedData('TomMessageCount', tomCount);
-    Qualtrics.SurveyEngine.setEmbeddedData('MaryMessageCount', maryCount);
 }
 
 function logOutcome(outcome) {
     console.log(`Outcome logged: ${outcome}`);
 }
+
 
 // Start chat when the page loads
 window.onload = function() {
