@@ -1,6 +1,6 @@
 
 let messages = [
-   { from: 'Tom', text: '1Hi Mary. Thanks for attending this interview today for the [position]. My name is Tom Garner, I am the [position]', sender: 'tom' },
+   { from: 'Tom', text: 'Hi Mary. Thanks for attending this interview today for the [position]. My name is Tom Garner, I am the [position]', sender: 'tom' },
    { from: 'Tom', text: 'This will be a brief conversation to get to know you, learn about your experience, and see if you are a good fit for the role. If today goes well, you will have a longer interview with my [team or supervisor]. Sound good?', sender: 'tom' },
     { from: 'Mary', text: 'Yes, sounds great.', sender: 'candidate' },
     { from: 'Tom', text: 'First, what made you apply for this position?', sender: 'tom' },
