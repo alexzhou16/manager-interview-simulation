@@ -73,6 +73,13 @@ function showNextMessage() {
 
             currentMessage++;
 
+              // Increment Tom or Mary's message count
+            if (msg.sender === 'tom') {
+                tomMessageCount++;
+            } else if (msg.sender === 'candidate') {
+                maryMessageCount++;
+            }
+
             // Move to next message after a delay
             if (!interventionOccurred) {
                 setTimeout(showNextMessage, 3000);
