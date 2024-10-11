@@ -95,11 +95,8 @@ function intervene(choice) {
         interventionOccurred = true;
         logOutcome('intervention');
 
-        // Send Tom's and Mary's message counts to Qualtrics
-        sendToQualtrics(tomMessageCount, maryMessageCount);
-
         // Display a message and move to the resultMessage section
-        alert(`You intervened after Tom's message #${tomMessageCount} and Mary's message #${maryMessageCount}. The candidate will be reassigned.`);
+        alert(`You intervened. The candidate will be reassigned.`);
         
         // Immediately end the chat after intervention
         endChat();
