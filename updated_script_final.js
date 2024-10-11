@@ -118,9 +118,8 @@ function endChat() {
 
     // Update resultMessage based on intervention
     if (interventionOccurred) {
-        document.getElementById('resultMessage').textContent = "You have stopped the interview. The candidate will be reassigned to a new manager.";
-    } else {
-        document.getElementById('resultMessage').textContent = "The interview is completed.";
+        document.getElementById('interventionPrompt').style.display = 'none';
+       document.getElementById('resultMessage').textContent = "The interview is completed.";
     }
 }
 
