@@ -99,6 +99,9 @@ function intervene(choice) {
         // Display a message and move to the resultMessage section
         document.getElementById('resultMessage').textContent = "You have stopped the interview. The candidate will be reassigned to a new manager.";
         // Immediately end the chat after intervention
+         
+       // Send Tom's and Mary's message counts to Qualtrics
+        sendToQualtrics(tomMessageCount, maryMessageCount);
         endChat();
     }
 }
