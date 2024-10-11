@@ -116,12 +116,14 @@ function endChat() {
     document.getElementById('results').style.display = 'block'; // Show results section
     document.getElementById('postSurvey').style.display = 'block'; // Show post survey section
 
-    // Update resultMessage based on intervention
+   // Update resultMessage based on intervention
     if (interventionOccurred) {
-        document.getElementById('interventionPrompt').style.display = 'none';
-       document.getElementById('resultMessage').textContent = "The interview is completed.";
+        document.getElementById('resultMessage').textContent = "You have stopped the interview. The candidate will be reassigned to a new manager.";
+    } else {
+        document.getElementById('resultMessage').textContent = "The interview is completed.";
     }
 }
+
 
 function sendToQualtrics(tomCount, maryCount) {
     // Assuming you're using Embedded Data fields in Qualtrics for 'TomMessageCount' and 'MaryMessageCount'
