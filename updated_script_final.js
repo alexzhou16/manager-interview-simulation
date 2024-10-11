@@ -97,8 +97,7 @@ function intervene(choice) {
         interventionOccurred = true;
 
         // Display a message and move to the resultMessage section
-        alert(`You intervened. The candidate will be reassigned.`);
-        
+        document.getElementById('resultMessage').textContent = "You have stopped the interview. The candidate will be reassigned to a new manager.";
         // Immediately end the chat after intervention
         endChat();
     }
