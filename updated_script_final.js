@@ -98,10 +98,25 @@ function intervene(choice) {
         // Send Tom's and Mary's message counts to Qualtrics
         sendToQualtrics(tomMessageCount, maryMessageCount);
 
-        alert(`You intervened. The interview will be stopped, and the candidate reassigned.`);
-        disableInterventionElements();
-        document.getElementById('resultMessage').textContent = "You have stopped the interview. The candidate will be reassigned to a new manager.";
+        // Display a message and move to the resultMessage section
+        alert(`You intervened after Tom's message #${tomMessageCount} and Mary's message #${maryMessageCount}. The candidate will be reassigned.`);
+        
+        // Immediately end the chat after intervention
         endChat();
+    }
+}
+
+function endChat() {
+    // Hide the chatbox and display the result message and survey
+    document.getElementById('chatbox').style.display = 'none';  // Hide chatbox
+    document.getElementById('results').style.display = 'block'; // Show results section
+    document.getElementById('postSurvey').style.display = 'block'; // Show post survey section
+
+    // Update resultMessage based on intervention
+    if (interventionOccurred) {
+        document.getElementById('resultMessage').textContent = "You have stopped the interview. The candidate will be reassigned to a new manager.";
+    } else {
+        document.getElementById('resultMessage').textContent = "The interview is completed.";
     }
 }
 
@@ -109,21 +124,6 @@ function sendToQualtrics(tomCount, maryCount) {
     // Assuming you're using Embedded Data fields in Qualtrics for 'TomMessageCount' and 'MaryMessageCount'
     Qualtrics.SurveyEngine.setEmbeddedData('TomMessageCount', tomCount);
     Qualtrics.SurveyEngine.setEmbeddedData('MaryMessageCount', maryCount);
-}
-
-function disableInterventionElements() {
-    document.getElementById('yesButton').style.display = 'none';
-    document.getElementById('interventionText').style.display = 'none';
-}
-
-function endChat() {
-    document.getElementById('chatbox').style.display = 'none';
-    document.getElementById('results').style.display = 'block';
-    document.getElementById('postSurvey').style.display = 'block';
-    if (!interventionOccurred) {
-        document.getElementById('interventionPrompt').style.display = 'none';
-        document.getElementById('resultMessage').textContent = "The interview is completed.";
-    }
 }
 
 function logOutcome(outcome) {
