@@ -92,8 +92,9 @@ function showNextMessage() {
 
 function intervene(choice) {
     if (choice) {
+         logOutcome('intervention');
+        disableInterventionElements();
         interventionOccurred = true;
-        logOutcome('intervention');
 
         // Display a message and move to the resultMessage section
         alert(`You intervened. The candidate will be reassigned.`);
