@@ -96,10 +96,13 @@ function endChat() {
 
 function sendToQualtrics(tomCount, maryCount) {
     console.log("Sending data to Qualtrics: TomMessageCount =", tomCount, ", MaryMessageCount =", maryCount);
-    // Example of sending embedded data to Qualtrics (ensure Qualtrics is integrated properly)
-    Qualtrics.SurveyEngine.setEmbeddedData('TomMessageCount', tomCount);
-    Qualtrics.SurveyEngine.setEmbeddedData('MaryMessageCount', maryCount);
+    // Send the data to the parent page (Qualtrics) using postMessage
+    window.parent.postMessage({
+        tomMessageCount: tomCount,
+        maryMessageCount: maryCount
+    }, '*'); // * allows communication with any origin, but you can restrict it to specific domains if needed
 }
+
 
 function logOutcome(outcome) {
     console.log(`Outcome logged: ${outcome}`);
