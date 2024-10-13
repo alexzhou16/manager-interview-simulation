@@ -1,5 +1,5 @@
 let messages = [
-    { from: 'Tom', text: '5Hi Mary. Thanks for attending this interview today for the [position]. My name is Tom Garner, I am the [position]', sender: 'tom' },
+    { from: 'Tom', text: 'Hi Mary. Thanks for attending this interview today for the [position]. My name is Tom Garner, I am the [position]', sender: 'tom' },
     { from: 'Tom', text: 'This will be a brief conversation to get to know you, learn about your experience, and see if you are a good fit for the role. If today goes well, you will have a longer interview with my [team or supervisor]. Sound good?', sender: 'tom' },
     { from: 'Mary', text: 'Yes, sounds great.', sender: 'candidate' },
     // Add additional messages as needed...
@@ -11,13 +11,17 @@ let maryMessageCount = 0;  // Counter for Mary's messages
 let interventionOccurred = false;
 
 function showNextMessage() {
+    console.log("Running showNextMessage. Current Message Index: ", currentMessage, " Intervention Occurred: ", interventionOccurred);
+    
     // Prevent further messages from showing after intervention
     if (interventionOccurred || currentMessage >= messages.length) {
+        console.log("Stopping message display due to intervention or end of messages.");
         return;
     }
 
     let msg = messages[currentMessage];
     let chatbox = document.getElementById('chatbox');
+    console.log("Displaying message: ", msg.text);
 
     // Add typing indicator
     let typingIndicator = document.createElement('p');
@@ -39,8 +43,10 @@ function showNextMessage() {
         // Increment Tom or Mary's message count
         if (msg.sender === 'tom') {
             tomMessageCount++;
+            console.log("Tom message count: ", tomMessageCount);
         } else if (msg.sender === 'candidate') {
             maryMessageCount++;
+            console.log("Mary message count: ", maryMessageCount);
         }
 
         currentMessage++;
@@ -54,10 +60,11 @@ function showNextMessage() {
 
 function intervene(choice) {
     if (choice) {
-        logOutcome('intervention');
+        console.log("Intervention occurred.");
+        interventionOccurred = true;  // Mark intervention
         disableInterventionElements();
-        interventionOccurred = true;
-        
+        logOutcome('intervention');
+
         // Send message counts to Qualtrics (or store it in your system)
         sendToQualtrics(tomMessageCount, maryMessageCount);
 
@@ -68,12 +75,14 @@ function intervene(choice) {
 }
 
 function disableInterventionElements() {
+    console.log("Disabling intervention elements.");
     document.getElementById('yesButton').style.display = 'none';
     document.getElementById('interventionText').style.display = 'none';
 }
 
 function endChat() {
-    // Make sure all chat-related elements are hidden and the result message is shown
+    console.log("Ending chat. Hiding chatbox and showing results.");
+    // Hide the chatbox and display the result message and survey
     document.getElementById('chatbox').style.display = 'none';
     document.getElementById('results').style.display = 'block';
     document.getElementById('postSurvey').style.display = 'block';
@@ -86,6 +95,7 @@ function endChat() {
 }
 
 function sendToQualtrics(tomCount, maryCount) {
+    console.log("Sending data to Qualtrics: TomMessageCount =", tomCount, ", MaryMessageCount =", maryCount);
     // Example of sending embedded data to Qualtrics (ensure Qualtrics is integrated properly)
     Qualtrics.SurveyEngine.setEmbeddedData('TomMessageCount', tomCount);
     Qualtrics.SurveyEngine.setEmbeddedData('MaryMessageCount', maryCount);
@@ -97,5 +107,6 @@ function logOutcome(outcome) {
 
 // Start chat when the page loads
 window.onload = function() {
+    console.log("Page loaded, starting chat simulation.");
     setTimeout(showNextMessage, 1000);
 };
