@@ -1,8 +1,8 @@
 let messages = [
-    { from: 'Tom', text: '2Hi Mary. Thanks for attending this interview today for the [position]. My name is Tom Garner, I am the [position]', sender: 'tom' },
+    { from: 'Tom', text: '5Hi Mary. Thanks for attending this interview today for the [position]. My name is Tom Garner, I am the [position]', sender: 'tom' },
     { from: 'Tom', text: 'This will be a brief conversation to get to know you, learn about your experience, and see if you are a good fit for the role. If today goes well, you will have a longer interview with my [team or supervisor]. Sound good?', sender: 'tom' },
     { from: 'Mary', text: 'Yes, sounds great.', sender: 'candidate' },
-    // Continue with other messages...
+    // Add additional messages as needed...
 ];
 
 let currentMessage = 0;
@@ -11,8 +11,9 @@ let maryMessageCount = 0;  // Counter for Mary's messages
 let interventionOccurred = false;
 
 function showNextMessage() {
+    // Prevent further messages from showing after intervention
     if (interventionOccurred || currentMessage >= messages.length) {
-        return;  // Stop showing messages if intervention has occurred or all messages are displayed
+        return;
     }
 
     let msg = messages[currentMessage];
@@ -44,7 +45,7 @@ function showNextMessage() {
 
         currentMessage++;
 
-        // Move to the next message if intervention hasn't occurred
+        // Continue showing messages unless intervention has occurred
         if (!interventionOccurred) {
             setTimeout(showNextMessage, 3000);
         }
@@ -56,9 +57,13 @@ function intervene(choice) {
         logOutcome('intervention');
         disableInterventionElements();
         interventionOccurred = true;
-        sendToQualtrics(tomMessageCount, maryMessageCount);  // Send counts to Qualtrics
+        
+        // Send message counts to Qualtrics (or store it in your system)
+        sendToQualtrics(tomMessageCount, maryMessageCount);
+
+        // Display the intervention result immediately
         document.getElementById('resultMessage').textContent = "You have stopped the interview. The candidate will be reassigned to a new manager.";
-        endChat();  // End chat immediately after intervention
+        endChat();
     }
 }
 
@@ -68,12 +73,12 @@ function disableInterventionElements() {
 }
 
 function endChat() {
-    // Hide the chatbox and display the result message and survey
+    // Make sure all chat-related elements are hidden and the result message is shown
     document.getElementById('chatbox').style.display = 'none';
     document.getElementById('results').style.display = 'block';
     document.getElementById('postSurvey').style.display = 'block';
 
-    // Update the result message based on intervention
+    // If intervention didn't happen, update the result message
     if (!interventionOccurred) {
         document.getElementById('interventionPrompt').style.display = 'none';
         document.getElementById('resultMessage').textContent = "The interview is completed.";
@@ -81,7 +86,7 @@ function endChat() {
 }
 
 function sendToQualtrics(tomCount, maryCount) {
-    // Assuming you're using Embedded Data fields in Qualtrics for 'TomMessageCount' and 'MaryMessageCount'
+    // Example of sending embedded data to Qualtrics (ensure Qualtrics is integrated properly)
     Qualtrics.SurveyEngine.setEmbeddedData('TomMessageCount', tomCount);
     Qualtrics.SurveyEngine.setEmbeddedData('MaryMessageCount', maryCount);
 }
